@@ -98,6 +98,15 @@ var _ = { };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var uniqobj = {};
+    var newarray = [];
+    _.each(array, function(item) { //TODO: Make this less sloppy
+      if((item in uniqobj) === false){
+        uniqobj[item] = 1;
+        newarray.push(item);
+      }
+    });
+    return newarray;
   };
 
 
