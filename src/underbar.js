@@ -8,6 +8,7 @@ var _ = { };
   // seem very useful, but remember it--if a function needs to provide an
   // iterator when the user does not pass one in, this will be handy.
   _.identity = function(val) {
+    return val;
   };
 
   /**
@@ -28,6 +29,13 @@ var _ = { };
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
   _.last = function(array, n) {
+    var length = array.length;
+    var lastnum = length-1;
+    if(n > length){
+      return array;
+    } else {
+      return n === undefined ? array[lastnum] : array.slice(length-n, length);
+    }
   };
 
   // Call iterator(value, key, collection) for each element of collection.
@@ -36,6 +44,15 @@ var _ = { };
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
   _.each = function(collection, iterator) {
+    if(Array.isArray(collection)){
+      for(var i = 0, l = collection.length; i < l; i++){
+        iterator(collection[i], i, collection);
+      }
+    } else {
+      for(var key in collection) {
+        iterator(collection[key], key, collection);
+      }
+    }
   };
 
   // Returns the index at which value can be found in the array, or -1 if value
@@ -57,12 +74,26 @@ var _ = { };
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
+    var newcollection = [];
+    _.each(collection, function(x){
+      if(test(x)){
+        newcollection.push(x);
+      }
+    });
+    /*for(var i = 0, l = collection.length; i < l; i++){
+      if(test(collection[i])){
+        newcollection.push(collection[i]);
+      }
+    }*/
+    return newcollection;
   };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    var newtest = function(x) { return test(x) === false; }
+    return _.filter(collection, newtest); //I'm a bit too proud of this.
   };
 
   // Produce a duplicate-free version of the array.
