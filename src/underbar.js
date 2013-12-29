@@ -198,11 +198,7 @@ var _ = { };
       var iterator = function(item) { return item === true };
     }
     return _.reduce(collection, function(anyFalse, item){
-      if(iterator(item) && anyFalse){
-        return true;
-      } else {
-        return false;
-      }
+      return true === (iterator(item) && anyFalse);
     }, true);
   };
 
@@ -210,6 +206,10 @@ var _ = { };
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    if(iterator === undefined){
+      var iterator = function(item) { return item === true };
+    }//Replace this with a higher level monadic wrapper. 
+    
   };
 
 
