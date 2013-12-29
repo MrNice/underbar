@@ -194,9 +194,16 @@ var _ = { };
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
-    if(iterator === undefined){
-      var iterator = function(item) { return item === true };
-    }
+    //TODO Polish here & @ some
+    if(iterator === undefined){ 
+      var iterator = function(item) { 
+        if(typeof(item) === "string"){
+          item = true;
+        }
+        return item === true;
+      }
+    }//Replace w/ monads 
+
     return _.reduce(collection, function(anyFalse, item){
       return true === (iterator(item) && anyFalse);
     }, true);
@@ -207,9 +214,18 @@ var _ = { };
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
     if(iterator === undefined){
-      var iterator = function(item) { return item === true };
-    }//Replace this with a higher level monadic wrapper. 
-    
+      var iterator = function(item) { 
+        if(typeof(item) === "string"){
+          item = true;
+        }
+        return item === true;
+      }
+    }//Replace w/ monads 
+
+    var newiterator = function(item) { 
+      return !(iterator(item));
+    }
+    return !(_.every(collection, newiterator));
   };
 
 
